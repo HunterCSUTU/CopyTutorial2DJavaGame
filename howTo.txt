@@ -1,0 +1,58 @@
+javac -d bin src/main/*.java
+java -cp bin main.Main
+
+/*
+* IMPORTANT IDEA: Java runs CLASSES, not files.
+*
+* When compiling:
+*   javac works with FILE PATHS.
+*   Example:
+*     javac -d bin src/main/*.java
+*
+* This means:
+*   - Read .java files from src/main/
+   - Compile them
+   - Put the .class files into bin/
+*   - Recreate the package structure inside bin/
+*
+* After compiling, the structure looks like:
+*
+*   bin/
+*     └── main/
+*         ├── Main.class
+*         └── GamePanel.class
+*
+* ------------------------------------------------
+*
+* When running:
+*   java does NOT take file paths.
+*   java runs a CLASS using its FULL PACKAGE NAME.
+*
+* Example:
+*   java -cp bin main.Main
+*
+* Breakdown:
+*   -cp bin
+*     -> "bin" is the ROOT of the classpath
+*     -> Java starts looking for packages here
+*
+*   main.Main
+*     -> "main" is the package (folder inside bin)
+*     -> "Main" is the class name (Main.class)
+*
+* Java internally resolves this as:
+*   bin + main.Main
+*   => bin/main/Main.class
+*
+* ------------------------------------------------
+*
+* THIS IS WHY YOU DO NOT DO:
+*   java -cp bin/main/Main     (wrong)
+*   java Main                 (wrong if using packages)
+*
+* File paths are for javac.
+* Package.ClassName is for java.
+*
+* RULE TO REMEMBER:
+*   "Compile with paths, run with package names."
+*/

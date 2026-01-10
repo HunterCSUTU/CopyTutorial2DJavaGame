@@ -10,10 +10,15 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("2d Adventure");
+	      
+        GamePanel gamePanel = new GamePanel();
+	window.add(gamePanel);
+	window.pack(); //window fits gamePanel size
+
         window.setLocationRelativeTo(null); //centers on screen
         window.setVisible(true); //“Show this window to the user right now.”. This prevents half-built UI from flashing on screen.
 
-
+    gamePanel.startGameThread();
 
     }
 }
