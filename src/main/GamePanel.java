@@ -23,18 +23,27 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     final int screenWidth = tileSize * maxScreenCol; //768 pixels
     final int screenHeight = tileSize * maxScreenRow; //576 pixels
 
+    //FPS
+    int FPS = 60;
     //create Constructor of GamePanel
     /* 
      * This constructor runs automatically when a GamePanel object is created using `new`.
      * It initializes the panel’s starting state, such as size, background, and settings.
     */
-    
+    KeyHandler keyH = new KeyHandler();    //instatiates the KeyHandler. If you don’t define any constructor, Java automatically provides a default no-argument constructor.
     Thread gameThread;  //the game "clock",  FPS
+
+    //Set player's position
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight)); // "this" = this object (the current GamePanel)
         this.setBackground(Color.black);
         this.setDoubleBuffered(true); //enabling this improves the Games rendering
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
     }
 
     public void startGameThread() {
@@ -50,7 +59,15 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
 
     @Override
     public void run() { //gameloop
+
+        double drawInterval = 1000000000.0 / FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
         while (gameThread != null) {
+            //how to make a restriction to make FPS happen? Because without is way too fast.
+                // outstide of the loop we will make divide 1 Billion nanoseconds (1 second) by our FPS constant
+                // so we can have ${FPS} frames per second.
+
             //System.out.println("The gameloop is running");
             //Update: update information such as character position
             update();
@@ -62,18 +79,48 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
             repaint() does NOT draw immediately — it tells Swing:
             "Hey, when you get a chance, redraw this component."
             */
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime /= 1000000; //converted to milliseconds. sleep accepts milliseconds not nano.
+                if (remainingTime < 0) {
+                    remainingTime = 0; //just in case update() and repaint() took too long
+                }
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += drawInterval;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            /*
+            In java you make a try catch is to satisfy the compiler.
+            In Java, if you call Thread.sleep(...) without handling the exception,
+            the code will not compile.
+             */
 
         }
     } 
     
-    public void update() {}
+    public void update() {
+        if (keyH.upPressed == true) {
+            playerY -= playerSpeed;
+        }
+        else if (keyH.downPressed) {
+            playerY += playerSpeed;
+        }
+        else if (keyH.leftPressed) {
+            playerX -= playerSpeed;
+        }
+        else if (keyH.rightPressed) {
+            playerX += playerSpeed;
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g); //to clear the screen properly before drawing the next frame.
         Graphics2D g2 = (Graphics2D)g; //has more functions for a 2d game.
         //g2 will be out paintbrush.
 
         g2.setColor(Color.white);
-        g2.fillRect(100,100, tileSize, tileSize); //player rn
+        g2.fillRect(playerX, playerY, tileSize, tileSize); //player rn
         g2.dispose(); //set down the paintbrush
     }
 

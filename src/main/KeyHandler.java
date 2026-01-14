@@ -17,6 +17,7 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode(); //each key on the keyboard has an int code assigned to it
 
         if (code == KeyEvent.VK_W) { // KeyEvent represents a keyboard action (press/release/type), not the key itself
+            upPressed = true;
         /*
         KeyEvent e;            // event object
         e.getKeyCode();        // returns an int (like 87)
@@ -41,19 +42,33 @@ public class KeyHandler implements KeyListener {
         }
 
         if (code == KeyEvent.VK_S) {
-
+            downPressed = true;
         }
         if (code == KeyEvent.VK_A) {
-
+            leftPressed = true;
         }
         if (code == KeyEvent.VK_D) {
-
+            rightPressed = true;
         }
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode(); //each key on the keyboard has an int code assigned to it
+
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        }
+        if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        }
+        if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        }
 
     }
 }
