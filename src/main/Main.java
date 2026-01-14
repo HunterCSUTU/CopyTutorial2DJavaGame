@@ -12,13 +12,22 @@ public class Main {
         window.setTitle("2d Adventure");
 	      
         GamePanel gamePanel = new GamePanel();
-	window.add(gamePanel);
-	window.pack(); //window fits gamePanel size
+	    window.add(gamePanel);
+        /*
+        JFrame is the window.
+        JPanel (gamePanel inherits from JPanel) is the drawable surface inside the window.
+
+        Adding the JPanel to the JFrame makes it a child component.
+        The JFrame handles the window,
+        and the JPanel handles rendering the game.
+        */
+
+        window.pack(); //window fits gamePanel size
 
         window.setLocationRelativeTo(null); //centers on screen
         window.setVisible(true); //“Show this window to the user right now.”. This prevents half-built UI from flashing on screen.
 
-    gamePanel.startGameThread();
+        gamePanel.startGameThread();
 
     }
 }

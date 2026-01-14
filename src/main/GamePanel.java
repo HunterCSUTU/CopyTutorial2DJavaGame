@@ -40,6 +40,12 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+        /*
+        This thread runs the game loop.
+        Calling start() creates a new thread and calls run().
+        run() updates the game and requests redraws using repaint().
+        */
+
     }
 
     @Override
@@ -47,12 +53,29 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
         while (gameThread != null) {
             //System.out.println("The gameloop is running");
             //Update: update information such as character position
+            update();
             //Draw: Draw the screen to reflect updated information
+            repaint();
+            /*
+            repaint() is a built-in Java method that requests Swing to call paintComponent().
+            We override paintComponent() to draw our game.
+            repaint() does NOT draw immediately — it tells Swing:
+            "Hey, when you get a chance, redraw this component."
+            */
+
         }
     } 
     
     public void update() {}
-    public void paintComponent() {}
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g); //to clear the screen properly before drawing the next frame.
+        Graphics2D g2 = (Graphics2D)g; //has more functions for a 2d game.
+        //g2 will be out paintbrush.
+
+        g2.setColor(Color.white);
+        g2.fillRect(100,100, tileSize, tileSize); //player rn
+        g2.dispose(); //set down the paintbrush
+    }
 
 
 
