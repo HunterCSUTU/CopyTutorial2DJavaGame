@@ -26,7 +26,7 @@ public class Main {
 
         window.setLocationRelativeTo(null); //centers on screen
         window.setVisible(true); //“Show this window to the user right now.”. This prevents half-built UI from flashing on screen.
-
+        //gamePanel.requestFocusInWindow(); chatgpt told me to do this but it didnt work.
         gamePanel.startGameThread();
 
     }

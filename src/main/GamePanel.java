@@ -36,10 +36,7 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     Thread gameThread;  //the game "clock",  FPS
     Player player = new Player(this, keyH); //the first parameter is our gp object. We are just in the gp class right now.
 
-    //Set player's position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight)); // "this" = this object (the current GamePanel)
@@ -103,10 +100,12 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     } 
     
     public void update() {
+        //System.out.println("gp update running");
         player.update();
     }
 
     public void paintComponent(Graphics g) {
+        //System.out.println("pg paintcomponent running");
         super.paintComponent(g); //to clear the screen properly before drawing the next frame.
         Graphics2D g2 = (Graphics2D)g; //has more functions for a 2d game.
         //g2 will be out paintbrush.

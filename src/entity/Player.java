@@ -22,6 +22,7 @@ At this point:
 
     //constructors don't have return types.
     public Player(GamePanel gp, KeyHandler keyH){
+        //System.out.println("Player created");
         this.gp = gp;
         this.keyH = keyH;
         setDefaultValues();
@@ -34,7 +35,10 @@ At this point:
     }
 
     public void update() {
-        if (keyH.upPressed == true) {
+        //System.out.println("player update running");
+
+        if (keyH.upPressed) {
+            //System.out.println("key pressed working");
             y -= speed;
         }
         else if (keyH.downPressed) {
@@ -48,6 +52,8 @@ At this point:
         }
     }
     public void draw(Graphics2D g2) {
+        //System.out.println("player draw running");
+
         g2.setColor(Color.white);
         g2.fillRect(x, y, gp.tileSize, gp.tileSize); //player rn
     }
