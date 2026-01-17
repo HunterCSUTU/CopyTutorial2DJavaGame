@@ -1,5 +1,7 @@
 package main;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 /* (instead of import javax.swing.JPanel
@@ -15,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     final int originalTileSize = 16;  //16x16 tile.  and final int is like a const
     //but modern computers have higher resolution so 16x16 looks small on the screen. So we scale.
     final int scale = 3;
-    final int tileSize = originalTileSize * scale; //now it will look 48x48. much bigger on screen
+    public final int tileSize = originalTileSize * scale; //now it will look 48x48. much bigger on screen
 
         //how many tiles can be displayed on a single screen? Horizontal and vertical.
     final int maxScreenCol = 16;
@@ -32,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     */
     KeyHandler keyH = new KeyHandler();    //instatiates the KeyHandler. If you don’t define any constructor, Java automatically provides a default no-argument constructor.
     Thread gameThread;  //the game "clock",  FPS
+    Player player = new Player(this, keyH); //the first parameter is our gp object. We are just in the gp class right now.
 
     //Set player's position
     int playerX = 100;
@@ -100,27 +103,15 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     } 
     
     public void update() {
-        if (keyH.upPressed == true) {
-            playerY -= playerSpeed;
-        }
-        else if (keyH.downPressed) {
-            playerY += playerSpeed;
-        }
-        else if (keyH.leftPressed) {
-            playerX -= playerSpeed;
-        }
-        else if (keyH.rightPressed) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g); //to clear the screen properly before drawing the next frame.
         Graphics2D g2 = (Graphics2D)g; //has more functions for a 2d game.
         //g2 will be out paintbrush.
+        player.draw(g2);
 
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize); //player rn
         g2.dispose(); //set down the paintbrush
     }
 
