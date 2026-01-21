@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +21,10 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
     public final int tileSize = originalTileSize * scale; //now it will look 48x48. much bigger on screen
 
         //how many tiles can be displayed on a single screen? Horizontal and vertical.
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol; //768 pixels
-    final int screenHeight = tileSize * maxScreenRow; //576 pixels
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol; //768 pixels
+    public final int screenHeight = tileSize * maxScreenRow; //576 pixels
 
     //FPS
     int FPS = 60;
@@ -32,6 +33,10 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
      * This constructor runs automatically when a GamePanel object is created using `new`.
      * It initializes the panel’s starting state, such as size, background, and settings.
     */
+
+
+    //Instantiates
+    TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();    //instatiates the KeyHandler. If you don’t define any constructor, Java automatically provides a default no-argument constructor.
     Thread gameThread;  //the game "clock",  FPS
     Player player = new Player(this, keyH); //the first parameter is our gp object. We are just in the gp class right now.
@@ -109,6 +114,8 @@ public class GamePanel extends JPanel implements Runnable { //inherets from JPan
         super.paintComponent(g); //to clear the screen properly before drawing the next frame.
         Graphics2D g2 = (Graphics2D)g; //has more functions for a 2d game.
         //g2 will be out paintbrush.
+
+        tileM.draw(g2);
         player.draw(g2);
 
         g2.dispose(); //set down the paintbrush
